@@ -7,6 +7,8 @@ const toc = {{TOC}};
 const tocElementMenu = document.querySelector('#toc');
 const currentPageTitle = document.querySelector('#current-page-title').textContent;
 
+tocElementMenu.innerHTML = '<strong>Table of content</strong>'
+
 for (let element of toc)
 {
     const title = element["title"];

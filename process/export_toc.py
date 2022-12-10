@@ -9,7 +9,7 @@ import filesystem
 
 
 dir_source = 'src/'
-json_output = '_site/toc.json'
+json_output = '_site/theme/js/toc.json'
 menu_path = '_site/theme/js/menu.js'
 
 def clean_title(input):
