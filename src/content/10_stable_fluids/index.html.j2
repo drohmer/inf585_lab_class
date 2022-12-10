@@ -1,0 +1,120 @@
+{% set pageTitle = 'Simulation - Stable fluids' %}
+{% set tocTitle = 'Stable Fluids' %}
+
+{% extends "theme/template/base.html" %}
+
+
+{% block content %}
+
+
+
+== Simulation - Stable fluids
+
+::[color:gray;]
+__Path of the code: [09_stable_fluids]__
+::
+
+::[height:1em;]::
+
+
+The objective of this scene is to simulate the "stable fluid" model (in 2D) proposed by Jos Stam in [link::assets/stable_fluids.pdf[Stable Fluids. Jos Stam. SIGGRAPH 1999]]. And later described with more algorithmic details in [link::assets/real_time_fluid.pdf[Real-Time Fluid Dynamics for Games. Jos Stam. Game Developers Conference, 2003]].
+
+::[height:1em;]::
+
+In the current state, the code encodes a velocity grid (the velocity of the fluid) and a density grid (the color/image which is visualized). The values of these grid are only advected through time, and your objective is to complete the three steps of the stable fluids method, namely
+
+::[height:1em;]::
+
+* - Diffusion (function __diffuse__)
+* - Advection (function __advect__)
+* - Projection of the velocity to a divergence free vector field (function __project__)
+
+::[height:1em;]::
+
+These three steps are already called in the function __simulate__. Note that diffusion and advection steps are applied to both velocity and density field, while the projection is only applied to the velocity.
+
+::[height:1em;]::
+
+Clicking on the left button of the mouse and dragging it allows to set the speed on the corresponding grid cell (but this speed doesn't evolve yet). We will not consider any other external forces applied on the fluid.
+
+== Diffusion
+
+The function __diffuse__ is set to solve one step of the equation \(\frac{\partial f}{\partial t}=\mu\triangle f\), where \(f\) can be either the velocity, or a density.
+To handle this generic input, the function is encoded to received a 2D grid of template values. The function is also defined in the header file for this reason.
+
+::[height:1em;]::
+
+The equation is solved numerically using an implicit scheme in order to ensure inconditional stability: 
+
+::[height:1em;]::
+
+\((1+4\Delta t\,\mu)\,f ^ {k+1} _ {x,y}=f ^ {k} _ {x,y}+\Delta t\,\mu\left(f ^ {k+1} _ {x+1,y}+f ^ {k+1} _ {x-1,y}+f ^ {k+1} _ {x,y+1}+f ^ {k+1} _ {x,y-1}\right)\)
+
+::[height:1em;]::
+
+**> Implement the numerical solution of this equation using Gauss Seidel iterations (consider around 15 iterations).**
+
+::[height:1em;]::
+
+__Note__:
+
+* - __even if \(f\) is a template parameter, you can use its value as any variable (ex. f(x,y), f(x-1,y), etc.)__
+
+* - __for each Gauss Seidel iteration, you may set the values of the grid boundary using the pre-coded function set_boundary.__
+
+
+::[text-align:center;]
+videoplay::assets/diffusion.mp4[width:100%; max-width:400px;] <br>
+__Example of diffusion applied to the density with \(\mu=0.02\)__
+::
+
+
+== Advection
+
+The function __advect__ is set to displace a field \(f\) along a prescribed velocity \(v\). \(f\) can itself be a density, or the velocity itself.
+
+::[height:1em;]::
+
+To ensure stable advection, backtracing can be use in setting the value \(f(p,t)\) where \(p\) is a grid cell position, and \(t\) the current time from the interpolated value of f at previous time step at position \(f(p-\Delta t\,v(p,t), t-\Delta t)\).
+
+::[height:1em;]::
+
+The advection function is already implemented in the function __advect__ using bilinear interpolation at position \(p-\Delta t\,v(p,t)\). Pay attention to not fetch values outside the boundaries of the grid.
+
+::[height:1em;]::
+
+Once implemented, you should be able to create visible motion from your mouse trajectory in your density. This motion should be smooth, but doesn't ensure yet incompressible behavior.
+
+::[text-align:center;]
+videoplay::assets/advection.mp4[width:100%; max-width:450px]
+::
+
+
+== Divergence free projection
+
+The last step ensuring incompressibility is to constraint the velocity field to be divergence free.
+
+::[height:1em;]::
+
+This step need only to be applied on the velocity field (and not on density), and consists in three sub-steps.
+
+::[height:1em;]::
+
+* 1. Compute the divergence of the input velocity \(v_0\)
+* 2. Compute a gradient field \(q\) satisfying Poisson equation \(\triangle q = div(v)\) 
+* 3. Compute divergent free vector field as \(v=v_0-\nabla\,q\)
+
+::[height:1em;]::
+
+Similarily to the divergence computation, the Poisson equation is solved using a stable implicit numerical scheme, typically using the Gauss Seidel iterations. 
+Between each of these steps, and at each iteration of the Gauss Seidel, boundaries of the different quantities can be reset using the __set_boundary__ function.
+
+::[height:1em;]::
+
+**> Implement these three steps in the __divergence_free__ function** to reach a divergence free vector field that you can interactively control.
+
+::[text-align:center;]
+videoplay::assets/projection.mp4[width:100%; max-width:550px]
+::
+
+{% endblock %}

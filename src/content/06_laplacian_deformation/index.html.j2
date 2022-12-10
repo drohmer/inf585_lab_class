@@ -1,0 +1,214 @@
+{% set pageTitle = 'Deformation - Laplacian editing, ARAP' %}
+{% set tocTitle = 'ARAP' %}
+
+{% extends "theme/template/base.html" %}
+
+
+
+{% block content %}
+
+= Deformation - Laplacian editing, ARAP
+
+::[color:gray;]
+__Path of the code: [05_laplacian_deformation]__
+::
+
+::[height:1em;]::
+
+The objective of this scene is to model interactive laplacian deformation similarily to the following two articles
+
+* - First in [link::https://igl.ethz.ch/projects/Laplacian-mesh-processing/Laplacian-mesh-editing/diffcoords-editing.pdf[Differential Coordinates for Interactive Mesh Editing. O. Sorkine et al. SMI 2004]]
+* - And, in a second part, an As-Rigid-As-Possible (ARAP) deformation as proposed in [link::https://igl.ethz.ch/projects/ARAP/arap_web.pdf[As-Rigid-As-Possible Surface Modeling. O. Sorkine, M. Alexa. SGP 2007]]
+
+=== Current state of the code
+
+In the current state of the program a planar grid surface is displayed. And an interactive vertex selection system is proposed (with no effect on the surface so far).
+
+::[height:0.5em;]::
+
+::[text-align:center;]
+videoplay::assets/constraints.mp4[width:100%;max-width:550px]{controls}
+::
+
+::[height:0.5em;]::
+
+The blue vertices are supposed model static vertex position that should be preserved during deformation. 
+* - The four corners are initially set as static constraints
+* - These vertices are stored in the structure constraints.fixed
+
+::[height:0.5em;]::
+
+The red vertices are supposed to model target vertices that the user can moves. 
+* - The vertex in the middle of the grid is initially selected as target.
+* - These vertices are stored in the structure constraints.target
+
+::[height:0.5em;]::
+
+To translate the target vertices, press shift key and drag and drop the mouse. A white sphere indicates where the target vertex has been translated.
+
+
+::[height:0.5em;]::
+
+Another mode "Select constraint" is proposed where these constraints can be modified.
+
+* - In this mode, new target constraints are selected using a rectangular selection box activated using shift key + mouse drag and drop over some part of the surface.
+
+* - A drag and drop with the left button of the mouse selects new target constraints, while the right button of the mouse selects new fixed constraints.
+* - Selecting an empty space allows to erase existing constraints.
+
+
+
+=== Laplacian surface deformation
+
+The deformation of the surface can be expressed as the set of position \(q_i\) minimizing the following energy
+
+* \(\displaystyle E=\sum_{i=0}^{N-1} \left\|\delta(q_i) - \delta(p_i)\right\|^2 +  \sum_{i\in C} \omega_i \|q_i-c_i\|^2\)
+* \(\displaystyle \;\;\;=\sum_{i=0}^{N-1} \left\|q_i-\frac{1}{\mathcal{N}_i}\sum_{j\in\mathcal{N}_i} q_j - \delta(p_i)\right\|^2 +  \sum_{i\in C} \omega_i \|q_i-c_i\|^2\)
+
+::[height:0.5em;]::
+
+* - \(N\) Number of vertices
+* - \(p_i\) Initial vertices position 
+* - \(\mathcal{N}_i\) 1-ring of the vertex i. \(|\mathcal{N}_i|\) the size of the 1-ring.
+* - \(\delta(p_i) = p_i-\frac{1}{|\mathcal{N}_i|}\sum_{j\in\mathcal{N}_i}p_j\)
+* - \(C\) Set of constrained vertex
+* - \(c_i\) Position of the constrained vertex
+* - \(\omega_i\) Weight associated to the constrained vertex \(i\in C\)
+
+
+::[height:1.0em;]::
+
+This energy can be reformulated in a matrix form with unknown \(q=(q_0,\cdots,q_{N-1})\)
+
+* \(E=\|\mathrm{M}\,q - b\|^2\)
+
+
+::[height:0.5em;]::
+
+Note that \(M\) is a large sparse matrix of size \( (N+N_c) \times N\), where \(N_c\) is the number of constraints.
+
+::[height:1.0em;]::
+
+> Your goal is to **build the matrix and vector** associated to this energy, and **solve the linear system** in order to compute the new surface.
+
+
+==== Solving linear system using Eigen
+
+link::http://eigen.tuxfamily.org/index.php?title=Main_Page[Eigen] is C++ library for efficient matrix manipulation and linear system solver.
+You can use it to encode your matrix and vector associated to the least square problem.
+This library (composed only of header files) is already included with the code library (in third_party/eigen).
+
+::[height:0.5em;]::
+
+Note that you can use dense matrix solver, but to fully take advantage of the sparse structure of the matrix, you can directly use the Sparse matrix and solver proposed by Eigen.
+
+::[height:0.5em;]::
+
+If you are not familiar with Eigen, the following code shows a basic example of sparse system solver for least square problem (note that several solvers are proposed in Eigen, and you may experiment with them)
+
+
+code::[c++]
+#include <iostream>
+#include <Eigen/Sparse>
+
+int main()
+{
+    // Build matrix
+    Eigen::SparseMatrix<float> M;
+    
+    // Resize and reserve space to store coefficients
+    //   ex. N*N rows, 10 coeffs per rows
+    int N = 50;
+    M.resize(N,N);
+    M.reserve(Eigen::VectorXi::Constant(N*N,10));
+    // Fill the matrix ... M.coeffRef(i,j) = value
+    for(int k=0; k<N; ++k) {
+        M.coeffRef(k,k)=1.0f; M.coeffRef(k,(k+1)%N)=-0.3f;
+    }
+    
+    // Compress the matrix representation
+    M.makeCompressed();
+
+    // Factorization for a solver (here Conj. Gradient)
+    Eigen::LeastSquaresConjugateGradient< Eigen::SparseMatrix<float> > solver;
+    solver.compute(M);
+    solver.setTolerance(1e-6f);
+
+    // Build RHS
+    Eigen::VectorXf b;
+    b = Eigen::VectorXf::Random(N);
+
+    // Solve linear system
+    Eigen::VectorXf x = solver.solve(b);
+    // or solver.solveWithGuess(b, x0) 
+    //   faster with good guess
+
+    std::cout <<"Check solution : "
+       << (M*x-b).norm() << std::endl;   
+    std::cout <<"N iterations : "
+       << solver.iterations() << std::endl;   
+
+    return 0;
+}
+code::[-]
+
+==== Solving for Laplacian deformation
+
+* 1. Build the associate matrix \(\mathrm{M}\) and right-hand-side \(b\) depending on your shape and constraints.
+* 2. Then solve the least square problem and display the result.
+
+::[height:1.0em;]::
+
+* - In a first step, you can build the matrix and solve it as an initial step. You can consider only one type of constraints.
+* - Then in a second step, you may dispatch the adequate part of your code in the two following functions in order to handle interactive deformations
+** __build_matrix__ : fill the matrix coefficient and perform factorization 
+** __update_deformation__ : solve the system for the given constraints 
+*** + handle the two types of constraints: fixed positions, and target one.
+
+::[height:1.0em;]::
+
+**Notes:**
+
+* - You will need to compute the one ring of your surface
+* - Check the specific structure of your matrix with a coarse mesh (you can print it on the command line).
+* - If you don't translate your constraints, the solution should be the initial planar grid surface
+* - You can solve three systems in x, y, and z coordinates using the same matrix, but different rhs.
+* - Using a guess solution with the "LeastSquaresConjugateGradient" helps to speed up the solution.
+
+
+videoplay::assets/laplacian.mp4[width:100%;max-width:650px]{controls}
+
+
+
+=== As-Rigid-As-Possible
+
+
+The As-Rigid-As-Possible method adds to the previous energy formulation the use of a matrix \(R(q_i)\): rotation corresponding to the optimal rigid transform between \(p_i\) (and its neighborhood) and \(q_i\) (and its neighborhood).
+
+::[height:0.5em;]::
+
+* \(\displaystyle E=\sum_{i=0}^{N-1} \left\|q_i-\frac{1}{\mathcal{N}_i}\sum_{j\in\mathcal{N}_i} q_j - R(q_i)\,\delta(p_i)\right\|^2 +  \sum_{i\in C} \omega_i \|q_i-c_i\|^2\)
+
+::[height:1.5em;]::
+
+This energy is solved using an iterative process interleaving between theses two steps
+
+::[height:0.5em;]::
+
+* - For fixed \(R(q_i)\), the optimal \(q_i\) can be found using the previous least square approach in minimizing \(\|\mathrm{M}q-b_R\|^2\), where \(b_R\) is the right-hand-side taking into account \(R(q_i)\)
+* - For fixed \(q_i\), the optimal rotation matrix \(R(q_i)\) ca be found using the polar decomposition of the covariance matrix \(\sigma=\sum_j e_j (e_j ^ 0) ^ {T}\), where \(e_j\) (resp. \(e_j^0\)) are the edges of the 1-ring of \(q_i\) (resp. \(p_i\)).
+
+::[height:1.0em;]::
+
+> **Implement the ARAP deformation** and oberve that the rotation of the surface automatically adapts to the constraints.
+* - You may use a few iterations per step (<5)
+* - Eigen can compute the SVD of matrices to compute robustly a polar decomposition.
+
+
+videoplay::assets/arap.mp4[width:100%;max-width:700px]{controls}
+
+
+
+
+
+{% endblock %}

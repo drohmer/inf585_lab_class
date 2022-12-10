@@ -1,0 +1,80 @@
+{% set pageTitle = 'Simulation - Smoothed-Particle Hydrodynamics' %}
+{% set tocTitle = 'SPH' %}
+
+{% extends "theme/template/base.html" %}
+
+
+{% block content %}
+
+= Simulation - Smoothed-Particle Hydrodynamics
+
+::[color:gray;]
+__Path of the code: [10_sph]__
+::
+
+::[height:1em;]::
+
+
+
+The objective is to model a fluid simulation using SPH model. <br>
+So far, only the gravity force is applied on the particles <br>
+The blue color around the particle comes from a field function set as \(f(p)=\sum_i exp\left(-\left(\|p-p_i\|/\sigma\right)^2\right)\) and displayed as a colored texture to give the visual impression of continuous fluid material.
+
+
+::[height:2em;]::
+
+> **Fill the function "update_density"** that set the density at each particle position \(\rho_i\) using a smooth kernel
+** \(\displaystyle W_h(p) = \frac{315}{64\,\pi\,h^ 3}\,\left(1-\left(\frac{\|p\|}{h}\right)^ 2\right)^ 3\), \(\|p\|\leq h\)
+** __Note that this kernel is already implemented in the function W_density.__
+
+::[height:2em;]::
+
+> **Complete the function "update_acceleration"** to add the force component related to **pressure** and check that the solution seems reasonable (before adding viscosity forces).
+
+::[height:1em;]::
+
+* Note: Fill the function "W_gradient_pressure" to be the gradient of the spiky kernel and use it in the computation of the pressure force
+
+
+::[height:1em;]::
+
+::[text-align:center;]
+videoplay::assets/no_viscosity.mp4[width:100%;max-width:300px] <br>
+__Example obtained without viscosity using 20 integration steps for each frame__
+::
+
+
+::[height:1em;]::
+
+
+> **Add the viscosity component** to the acceleration and observe the behavior for various viscosity (you may need to decrease the integration time step for large viscosity value).
+
+::[text-align:center;]
+videoplay::assets/with_viscosity.mp4[width:100%; max-width:300px]<br>
+__Adding viscosity__ <br>
+::
+
+::[text-align:center;]
+videoplay::assets/more_particles.mp4[width:100%; max-width:300px]  <br>
+__Example with more samples__
+::
+
+::[height:1em;]::
+
+
+::[text-align:center;]
+videoplay::assets/fluid.mp4[width:100%; max-width:350px]
+::
+
+== Extensions
+
+
+* - Note that particles have been initialized in the \((x,y)\) plane and leads to a 2D simulation. But if you initialize particles in 3D (or add a small \(z\) component in their initial position), the simulation will adapt seamlessly to 3D.
+
+::[height:1em;]::
+
+* - If you have spare time: Implement an acceleration grid structure to avoid comparing all pairs of particles (ex. uniform grid).
+
+::[height:2em;]::
+
+{% endblock %}

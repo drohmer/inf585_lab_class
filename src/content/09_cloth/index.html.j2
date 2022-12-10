@@ -1,0 +1,61 @@
+{% set pageTitle = 'Simulation - Mass-springs Cloth' %}
+{% set tocTitle = 'Mass-springs Cloth' %}
+
+{% extends "theme/template/base.html" %}
+
+
+{% block content %}
+
+= Simulation - Mass-springs Cloth
+
+::[color:gray;]
+__Path of the code: [08_cloth]__
+::
+
+::[height:1em;]::
+
+* A cloth surface is modeled as a mesh where vertices are initially placed on a regular grid. 
+* So far, only the weight (and a drag/friction force) is applied on the particles. 
+
+::[height:1em;]::
+
+* Two vertices are constrained to remain fixed (see the variable positional_constraints to remove/add new positional constraints).
+
+::[height:0.5em;]::
+
+** - A set of GUI-based controlers on the time scale multiplicator applied on \(h\), stiffness, damping, mass, and wind force. These parameters are available inside the code (only time scale is used in the initial code).
+
+** - The possibility to desactivate the cloth texture and display the wireframe, which may be helpfull for debugging. 
+
+::[height:1.0em;]::
+
+* An automatic check is performed after each numerical integration to detect a possible divergence of the system (detect_simulation_divergence). In such case, the simulation is stopped (with an error message on the command line).
+
+== Adding spring forces
+
+The objective is to implement the network of springs able to model the behavior of a cloth. 
+
+::[height:1.0em;]::
+
+* > **Add the forces related to springs** in the function __compute_forces__.
+** - Add first the forces of structural springs only and make sure that you get a plausible behavior before adding more forces. Using wireframe mode with slow time step and coarse mesh (few particles) can help debugging if something is wrong.
+** - Then add forces modeled by shearing and bending springs. 
+
+::[height:1.0em;]::
+
+* Note the effect of spring stiffness and mass on the resulting simulation.
+** __You may add more springs, linking for instance 2-, or 3-neighborhood, if you want to model more rigid and smooth behavior for higher resolution meshes__.
+
+::[height:1.0em;]::
+
+* > Implement the **collision detection and response** with respect to the ground and the sphere in the function __collision_constraints__. Note that the parameters of the radius and position of the sphere as well as the height of the ground are available in the variable __collision_shapes__.
+
+::[height:1.0em;]::
+
+* > Implement the **action of the wind**. How do you model such force ?
+
+::[text-align:center;]
+videoplay::assets/cloth.webm[width:100%; max-width:600px]{controls}
+::
+
+{% endblock %}

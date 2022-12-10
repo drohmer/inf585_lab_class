@@ -1,0 +1,59 @@
+{% set pageTitle = 'Simulation - Spheres in Collision' %}
+{% set tocTitle = 'Spheres in Collision' %}
+
+{% extends "theme/template/base.html" %}
+
+
+
+{% block content %}
+
+
+= Simulation - Spheres in Collision
+
+::[color:gray;]
+__Path of the code: [07_sphere_collision]__
+::
+
+::[height:1em;]::
+
+This scene models a set of particles representing spheres falling under gravity.
+Each particle is associated to the following parameters: position \(p\), speed \(v\), forces \(f\), as well as radius and color. 
+
+::[height:1em;]::
+
+The position and speed of each particle is updated through time thanks to a discrete integration
+
+* - \(v^{k+1} = v^{k} + \Delta t\;f^{k}\)
+
+* - \(p^{k+1} = p^{k} + \Delta t\;v^{k+1}\)
+
+
+== Collisions
+
+At the current state of the program, only gravity is took into account.
+
+* > **Add collision detection and response between the spheres and the faces of the cube**.
+
+* > **Add collision detection and response between the sphere themselves**.
+
+::[height:1em;]::
+
+Note that when multiple spheres are involved in stack, the multiple collisions cannot be solved only by a single pair-wise correction. This can lead to jittering behavior. To limit such effect you can
+* - perform several integration steps and collision correction with smaller timer steps before displaying the result
+* - avoid bouncing between colliding particles with small relative velocity
+
+::[text-align:center;]
+videoplay::assets/spheres_collision.mp4[width:100%; max-width:500px]
+::
+
+== Possible extension
+
+* Allow the user to move the box interactively.
+
+* Speed-up the collision detection in building a spatial acceleration structure such as a regular grid storing neighboring particles.
+
+::[text-align:center;]
+videoplay::assets/spheres_collision_box_displace.mp4[width:100%; max-width:500px]
+::
+
+{% endblock %}

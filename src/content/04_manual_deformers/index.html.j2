@@ -1,0 +1,102 @@
+{% set pageTitle = 'Deformation - Procedural local deformers' %}
+{% set tocTitle = 'Procedural Deformers' %}
+
+{% extends "theme/template/base.html" %}
+
+
+
+{% block content %}
+
+= Deformation - Procedural local deformers
+
+::[color:gray;]
+__Path of the code: [03_manual_deformers]__
+::
+
+::[height:1.5em;]::
+
+The objective of this scene is to model interactive deformers allowing to locally grap and pull/push, scale, and bend/twist some part of the surface.
+
+== Current state of the code
+
+In the current state of the program a vertex \(p_0\) of the surface can be selected while pressing the key __SHIFT__ and moving the mouse. 
+
+::[height:1.0em;]::
+
+A left click on the mouse followed by a drag-and-drop allow to select a sub-part of the surface around \(p_0\), and translate it along the mouse displacement.
+The size of this sub-part is parameterized by a __falloff distance__ visualized as the red circle around the selected vertex. This distance can be interactively modified using the scroll of the mouse, or directly using the corresponding slider in the GUI.
+
+::[height:1.0em;]::
+
+Different surfaces can be loaded in selecting in the GUI: __plane, cylinder, sphere, cube, or a pre-defined mesh__. <br>
+The type and direction of deformer do not have any effect yet.
+
+::[height:1.0em;]::
+
+The deformation of the surface is computed in the function **apply_deformation** located in the file **deformation.cpp**. This function is called every time a vertex is selected and the mouse is dragged.
+
+::[height:1.0em;]::
+
+So far, the current deformation implements a translation in the view space with a local linear profile.
+
+* if( \(\|p-p_0\| <\) falloff_distance ) +
+**    \(p\) = \(p_0\) + (\(\|p-p_0\|\)/falloff_distance) \(\times\) translation
+
+::[height:0.5em;]::
+
+* with
+
+* - \(p\): the coordinates of the vertex to deform
+* - \(p_0\): the initial position of the selected vertex (before deformation)
+* - translation: the 3D translation implied from the mouse displacement in the camera plane.
+
+
+
+== Translation in the camera plane
+
+* > Change the function __apply_deformation__ to model the following effect where the surface can be **smoothly pulled/pushed** along the mouse displacement.
+
+::[text-align:center;]
+videoplay::assets/translate.mp4[width:100%; max-width:650px;]{controls}
+::
+
+== Translation in the surface normal direction
+
+* > Add the possibility to **constraint the translation** to act only along the initial normal direction of the picked vertex (note that this information is stored in the __picking_parameters__ structure).
+
+::[height:0.5em;]::
+
+* __Let the user interactively select the deformation he wishes to apply using the checkbox Deformer direction: View space/Surface normal__
+
+::[text-align:center;]
+videoplay::assets/translate_normal.mp4[width:100%; max-width:600px;]{controls}
+::
+
+
+
+== Twist
+
+* > Add the possibility to **twist the surface**: the direction of the twist being defined either by the camera direction, or the normal of the surface, and its angular magnitude is given by the amount of mouse displacement. 
+
+::[text-align:center;]
+videoplay::assets/twist.mp4[width:100%; max-width:600px;]{controls}
+::
+
+== Scale
+
+* > Finally, add the possibility to **expand/squeeze the surface** around the selected vertex. In this case, there is no choice of __View space/Surface normal__ direction.
+
+::[text-align:center;]
+videoplay::assets/scale.mp4[width:100%; max-width:600px;]{controls}
+::
+
+
+== Extra - Noise magnitude
+
+* > If you have time, add the possibility to add locally **Perlin noise** deformation whose magnitude is controled by the amount of translation of the mouse.
+
+::[text-align:center;]
+videoplay::assets/noise.mp4[width:100%; max-width:600px;]{controls}
+::
+
+{% endblock %}

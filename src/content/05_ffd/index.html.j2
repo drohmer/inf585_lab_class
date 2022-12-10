@@ -1,0 +1,61 @@
+{% set pageTitle = 'Deformation - FFD' %}
+{% set tocTitle = 'FFD' %}
+
+{% extends "theme/template/base.html" %}
+
+
+
+{% block content %}
+
+
+= Deformation - Free Form Deformation
+
+::[color:gray;]
+__Path of the code: [04_ffd]__
+::
+
+::[height:1em;]::
+
+This code model a deformable grid that should be used to apply an FFD deformation to the mesh inside it.
+
+::[height:1em;]::
+
+To deform the grid, keep shift pressed while moving the mouse over one of the grid vertex.
+
+::[height:1em;]::
+
+When the grid is modified, the function and __ffd_deform()__ is called. This function, currently empty, is expected to apply the FFD deformation to the shape.
+Note that a timer system ensure that __ffd_deform__ function is called periodically (and not at every mouse event) in order to limit the computation.
+
+::[height:1em;]::
+
+> **Implement the FFD deformation** on the shape using Bezier functions
+
+::[height:1em;]::
+
+\(\forall m\,,\;\; \displaystyle q_m = \sum_i \sum_j \sum_k b_i(x_m)\,b_j(y_m)\,b_k(z_m)\;g_{ijk}\)
+
+::[height:1em;]::
+
+With \(b_{i/j/k}\) the Bezier basis function, \(g_{ijk}\) the absolute coordinates of the grid vertices, \(p_m=(x_m,y_m,z_m)\in[0,1]^3\) the original shape vertex coordinates associated to the parametric coordinates of Bezier function, and \(q_m\) are the deformed coordinates.
+
+::[height:1em;]::
+
+__Hints__
+
+* You will need to complete the functions __precompute_weights()__ and __ffd_deform()__.
+* The grid-vertex coordinates \(g_{ijk}\) can be accessed as grid(kx,ky,kz) for the integer indices kx, ky, kz. Its dimension along the three directions can be accessed as grid.dimension.x/y/z.
+* 
+* A function computing \({N \choose i}\) is provided as __binomial_coeff(N,k)__ (in file ffd.cpp).
+* You may need to precompute values related to the parameteric coordinates of the vertices in the grid, and pass these values as argument of the function __ffd_deform()__.
+
+
+::[text-align:center;]
+videoplay::assets/ffd.mp4[width:100%;max-width:500px;]{controls}
+::
+
+::[height:1em;]::
+
+
+
+{% endblock %}
