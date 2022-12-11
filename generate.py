@@ -3,11 +3,13 @@ from jinja2 import Environment, FileSystemLoader
 # pip3 install jinja-markdown
 import sass      #pip3 install libsass
 import tidylib   #pip3 install pytidylib
+import yaml # pip install pyyaml
 import os
 import shutil
 import argparse
 import subprocess
 import sys
+import re
 
 from lib import filesystem
 sys.path.append('lib/lhtml/src/')
@@ -20,7 +22,30 @@ meta = {
     'theme': 'theme_templates/webpage-frame/'
 }
 
+def extract_data_from_file(file, regex):
+    # Read file
+    file_content = ''
+    with open(file,'r') as fid:
+        file_content = fid.read()
+    
+    #compile regex
+    for r in regex:
+        regex_compiled = re.compile(r,  re.DOTALL | re.MULTILINE)
+        match = re.findall(regex_compiled, file_content)
+        if len(match)>=1:
+            data = match[0]
+            return data
+    
+    print('Failed to extract data in file ',file)
 
+
+def extract_titles(template_files):
+
+    for entry in template_files:
+        path = entry['dir']+entry['filename']
+        regex = [r'tocTitle.*?=(.*?)%}', r'^(=+) (.*?)$']    
+        data = extract_data_from_file(path, regex)
+        print(data)
 
 if __name__== '__main__':
 
@@ -66,6 +91,16 @@ if __name__== '__main__':
     print(f'Look for jinja template files in {dir_site} ...')
     template_files = filesystem.find_files_in_hierarchy(dir_site, lambda f: f.endswith('.html.j2'))
     print(f'\t Found {len(template_files)} template files\n')
+
+    # Try to find title for each file
+    extract_titles(template_files)
+
+    # Export files as yaml stucture for other process
+    path_yaml = dir_site+'/files_structure.yaml'
+    print(template_files)
+    with open(path_yaml,'w') as fid:
+        yaml.dump(template_files, fid)
+
 
     # Load jinja
     print(f'Load jinja environment on {dir_site}')
