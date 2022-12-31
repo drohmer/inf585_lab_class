@@ -64,7 +64,7 @@ If you are not familiar with C++/OpenGL compilation on your system, follow first
 == Introductory scene
 
 
-* The first introductory scene is available in the directory **__scenes/inf585/00_introduction/__**
+* The first introductory scene is available in the directory **__scenes_inf585/00_introduction/__**
 ** - Each exercise is described as a unique program (with its own main) defined in the __scenes/__ directory. 
 ** - A __CMakeLists.txt__ is associated to each program for its compilation (+ a Makefile for Unix systems).
 *** __(you need to adapt the path of the link::https://imagecomputing.net/cgp/compilation/index.html[compilation instructions] to the directory of the CMakeLists.txt for each exercise)__
@@ -91,6 +91,10 @@ link::https://imagecomputing.net/cgp/content/01_general/index.html[CGP library] 
 * - Easy and secured storage for buffers of elements.
 * - 3D scene manipulation: Mouse controlled camera
 
+::[height:0.5em;]::
+
+Structures and functions of the library are accessible in the namespace cgp:: 
+
 ::[height:25px;]::
 
 The library tries to be as lightweight as possible. It is written to ease 3D graphics programming, and to not hide underlying working state. Although this is not required, you should be able to understand every part of the code.
@@ -107,14 +111,18 @@ It keeps in particular the following principles
 
 Role of the different high level directories
 
-* **scenes/** Contains the code associated to each 3D scene.
+* **scenes_XX/exercise_name/** (ex.scenes_inf585/00_introduction/) Contains the code associated to each 3D scene.
 ** - One exercise starts with an independant main file (+ possible other files) and associated CMakeLists.txt for its compilation.
 ** - Most of the time, the main.cpp will only consists in the general call structure (initialization, events handling, animation loop). While the specific data and drawing calls of each exercise will be set in the files scene.cpp/hpp.
 ** - Changing exercise consists in compiling the code from another directory.
 ** - All your code will take place in these directories (unless you want to modify the library).
 
-* **library/cgp/**  Contains the actual source code of the CGP library: set of structures and functions to ease generating your 3D scene.
-* **library/third_party** External library used by CGP such as glad (OpenGL loader), imgui (GUI), lodepng (loader for png images), etc.
+* **cgp/** Relates to the CGP library. 
+** - **cgp/library/cgp/** the actual source code of the CGP library: set of structures and functions to ease generating your 3D scene.
+** - **cgp/library/third_party/** External library used by CGP such as glad (OpenGL loader), imgui (GUI), lodepng (loader for png images), etc.
+** - **cgp/examples/** provides a set of examples of use cases of the library
+
+You may look at the files in the __cgp/__ directory to understand how things works, but in normal cases you should not have to modify these files.
 
 
 ==== Code editor
@@ -123,16 +131,10 @@ Role of the different high level directories
 ** C++ **code completion** (in particular complete function names, display expected arguments and types, objects arguments, etc.)
 ** efficiently **switch between files** and **jump to the signature and code** of any function and object.
 
-** __Note: Visual Studio Code and other lightweights text editor usually doesn't provide by default correct C++ code completion.__
+* You may use for instance:
+** VS Code with a correct C++ plugins and setup for the compiler.
+** QtCreator that works for C++ __out of the box__ (see link::https://imagecomputing.net/cgp/compilation/content/06_ide_qtcreator/index.html[instructions]).
 
-::[height:25px;]::
-
-* If you are not already familiar with C++ code editor (in Linux/Mac), you may try QtCreator, a C++ IDE able to load complete project from the CMakeLists.txt, and providing usefull tool such as code completion and structure navigation (in Windows, Visual Studio is the default IDE for C++).
-** See **link::https://imagecomputing.net/cgp/compilation/content/06_ide_qtcreator/index.html[instructions to use QtCreator]**
-
-::[height:25px;]::
-
-* Finally, note that the code should be executed from the root of the code directory (the directory containing the CMakeLists.txt of the corresponding exercise) in order to load external files at runtime. You may need to parameterize your run directory in your IDE (ex. QtCreator) to start the executable within it.
 
 ::[height:2em;]::
 
@@ -140,28 +142,33 @@ Role of the different high level directories
 
 
 
-* > Observe the file __main.cpp__. You should recognize the general organization of the program, in particular the setup stage, and the animation loop stage. Note where the method __scene.initialize()__ and __scene.display()__ are called, and their implementation in the file scene.cpp.
+* > Observe the file __main.cpp__. You should recognize the general organization of the program, in particular the setup stage, and the animation loop stage. Note where the two main methods __scene.initialize()__ and __scene.display_frame()__ are called, and their implementation in the file scene.cpp. <br>
+In the following you will only modify code in the file scene.cpp (and scene.hpp).
 
 ::[height:25px;]::
+
 
 *  > Change the rotation (axis and angle) from some of the object within the scene in the function __display_scene__.
-** Note that the structure __vec3__ implements a model of 3D vector with (x,y,z) coordinates.
-** The rotation is stored as a 3x3 matrix using the __mat3__ structure.
-** You can apply most of the basic operations between vec3 and mat3 using mathematical operators (+,-,*,/).
+** The function __rotation_transform::from_axis_angle(axis_of_rotation, angle_of_rotation);__ generate a structure link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#rotation[cgp::rotation_transform] from a given 3D axis (link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#vec[cgp::vec3]) and scalar angle (float) in radians.
+** The structure link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#vec[cgp::vec3] implements a model of 3D vector with (x,y,z) coordinates.
+*** You can apply most of the basic operations between vec3 and mat3 using mathematical operators (+,-,*,/).
+** The structure link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#rotation[rotation_transform] allowing to generate and manipulate a rotation. The rotation is stored internaly as a quaternion, and can be manipulated similarily to a matrix when applied on a vector.
+** The rotation is stored in the variable "model" of a link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#mesh_drawable[mesh_drawable] structure. __model__ stores an link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#affine_transform[affine transformation] which is used as uniform variable when the shape is displayed.
+
 
 ::[height:25px;]::
 
-* Note that there is two type of mesh structures in use
+* Note that there is two type of "mesh" structures in use
 ::[height:1em;]::
-** **- mesh** storing buffer on data (per vertex: position, normal, uv, color, and triangle connectivity) on CPU
+** **- link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#mesh[cgp::mesh]** storing buffer on data (per vertex: position, normal, uv, color, and triangle connectivity) on CPU
 *** This structure allows to conveniently access to all the data defining a mesh from the C++ code. However these data are not on the GPU, so a __mesh__ cannot be directly displayed. 
 ::[height:1em;]::
-** **- mesh_drawable** storing VBOs associated to these buffer once sent on the GPU memory (in the sub-structure mesh_drawable_gpu_data) as well as its VAO. The structure also stores uniform parameters that are sent to the shader at every draw call. A default shader and texture id are also be stored with the structure.
+** **- link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#mesh_drawable[mesh_drawable]** storing VBOs associated to these buffer once sent on the GPU memory (in the sub-structure mesh_drawable_gpu_data) as well as its VAO. The structure also stores uniform parameters that are sent to the shader at every draw call. A default shader and texture id are also be stored with the structure.
 *** This structure only stores the index corresponding to elements on GPU. You cannot modify individual per-vertex elements easily from this structure.
 
 ::[height:25px;]::
 
-** Remark: a __mesh_drawable__ can be automatically generated from a __mesh__ structure in calling the construction __mesh_drawable(meshName)__. However, you cannot create a __mesh__ from a __mesh_drawable__.
+** Remark: a __mesh_drawable__ can be automatically generated/initialized from a __mesh__ structure in calling the construction __mesh_drawable.initialize_data_on_gpu(meshName)__. However, you cannot create a __mesh__ from a __mesh_drawable__.
 
 
 
@@ -172,7 +179,7 @@ In this first part we display a new sphere to the scene.
 
 ::[height:25px;]::
 
-* > Add the class variable to scene_structure class (in the file scene.hpp)
+* > Add the **class variable** to scene_structure class (in the file scene.hpp)
 
 ::[margin-left:2.5em;]
 code::[c++]
@@ -180,12 +187,14 @@ cgp::mesh_drawable sphere;
 code::[-]
 ::
 
-* > Initialize this variable in the __initialize()__ function (in the file scene.cpp) as a sphere of radius 0.5
+* __In this example, cgp:: is optional as the header file already indicated "using cgp::mesh_drawable;" in its beginning.__
+
+* > Initialize this variable in the file scene.cpp in the __initialize()__ function as a sphere of radius 0.5
 
 ::[margin-left:2.5em;]
 code::[c++]
 mesh sphere_mesh = mesh_primitive_sphere(0.5f);
-sphere.initialize(sphere_mesh, "new Sphere");
+sphere.initialize_data_on_gpu(sphere_mesh);
 code::[-]
 ::
 
@@ -193,12 +202,12 @@ code::[-]
 * (or variant: simply in one line without explicitely storing the mesh variable)
 ::[margin-left:2.5em;]
 code::[c++]
-sphere.initialize(mesh_primitive_sphere(0.5f), "new Sphere");
+sphere.initialize_data_on_gpu(mesh_primitive_sphere(0.5f));
 code::[-]
 ::
 ::
 
-* > Display this sphere in the __display__ function with the following code
+* > Display this sphere in the __display_frame()__ function with the following code
 
 ::[margin-left:2.5em;]
 code::[c++]
@@ -211,7 +220,7 @@ code::[-]
 ::[height:25px;]::
 
 * Note: You can set geometric transformation using the uniform properties of the mesh_drawable structure (reminder: uniform are parameters passed to the shaders).
-** __sphere.transform.translation/rotation/scaling = ... (see example on the other displayed shapes)__
+** __sphere.model.translation/rotation/scaling = ... (see example on the other displayed shapes)__
 * Note also that unless specified explicitely, the default shader associated to the mesh_drawable structure is used. 
 * The three trasformations: translation, rotation, and scaling are simply variables that you can write on. By default, their values are respectively, (0,0,0), the identity, and 1. The content of the variables are used (as uniform values in the shader) when the draw call is used.
 
@@ -221,7 +230,7 @@ code::[-]
 
 ::[margin-left:2.5em;]
 code::[c++]
-sphere.shading.color = vec3(1+std::cos(time), 1+std::sin(time), 2.0)/2.0f;
+sphere.material.color = vec3(1+std::cos(time), 1+std::sin(time), 2.0)/2.0f;
 code::[-]
 ::
 
@@ -257,7 +266,7 @@ code::[-]
 ::[height:25px;]::
 
 The last step consists in adapting the behavior of the display. 
-* > Add the following code in the __display__ function
+* > Add the following code in the __display_frame__ function
 
 ::[margin-left:2.5em;]
 code::[c++]
@@ -277,9 +286,9 @@ The following example show a case where mesh position are modified in the C++ co
 
 ::[margin-left:2.5em;]
 code::[c++]
-	cgp::mesh shape;
-	cgp::buffer<cgp::vec3> initial_position;
-	cgp::mesh_drawable shape_visual;
+	mesh shape;
+	numarray<vec3> initial_position;
+	mesh_drawable shape_visual;
 code::[-]
 ::
 
@@ -297,11 +306,11 @@ int N = 100;
 shape = mesh_primitive_grid({ 0,0,0 }, { 1,0,0 }, { 1,1,0 }, { 0,1,0 }, N, N);
 initial_position = shape.position;
 shape_visual.initialize(shape, "Deforming shape");
-shape_visual.shading.color = { 0.6f, 0.6f, 0.9f };
+shape_visual.material.color = { 0.6f, 0.6f, 0.9f };
 code::[-]
 ::
 
-* > Call the drawing of this surface at the end of the __display()__ function
+* > Call the drawing of this surface at the end of the __display_frame()__ function
 
 ::[margin-left:2.5em;]
 code::[c++]
@@ -318,14 +327,14 @@ code::[-]
 
 ::[margin-left:2.5em;]
 code::[c++]
-void scene_structure::evolve_shape()
+void scene_structure::evolve_shape(float time)
 {
     size_t const N = initial_position.size();
     for(size_t k=0; k<N; ++k)
     {
         vec3 const& p0 = initial_position[k];
         vec3& p        = shape.position[k];
-        p.z = p0.z + 0.1f * std::cos(10 * p.x + 4 * timer.t);
+        p.z = p0.z + 0.1f * std::cos(10 * p.x + 4 * time);
     }
 }
 code::[-]
@@ -336,7 +345,7 @@ code::[-]
 
 ::[margin-left:2.5em;]
 code::[c++]
-shape_visual.update_position(shape.position);
+shape_visual.vbo_position.update(shape.position);
 code::[-]
 ::
 
@@ -348,9 +357,9 @@ code::[-]
 ::[margin-left:2.5em;]
 code::[c++]
 // Recompute normals on the CPU (given the position and the connectivity currently in the mesh structure)
-shape.compute_normal();
+shape.normal_update();
 // Send updated normals on the GPU
-shape_visual.update_normal(shape.normal);
+shape_visual.vbo_normal.update(shape.normal);
 code::[-]
 ::
 
@@ -362,8 +371,8 @@ code::[-]
 
 ::[margin-left:2.5em;]
 code::[c++]
-float const dz = 0.3f * noise_perlin({ p0.x + 0.2f * timer.t, p0.y, 0 }, 2) 
-  + 0.015f * noise_perlin({ 4 * p0.x, 4 * p0.y, timer.t }, 2);
+float const dz = 0.3f * noise_perlin({ p0.x + 0.2f * time, p0.y, 0 }, 2) + 0.015f * noise_perlin({ 4 * p0.x, 4 * p0.y, time }, 2);
+p = p0 + vec3(0, 0, dz);
 code::[-]
 ::
 
@@ -384,7 +393,7 @@ code::[c++]
 shape_visual.shading.color = {1,1,1};
 
 // Load the image and associate the texture id to the structure
-shape_visual.texture = opengl_load_texture_image("assets/squirrel.jpg");
+shape_visual.texture.load_and_initialize_texture_2d_on_gpu("assets/squirrel.jpg");
 code::[-]
 ::
 
