@@ -2,4 +2,4 @@
 source_directory: 'src/'
 site_directory: '_site/'
 theme: 'static_website_lhtml/theme_templates/webpage-frame/'
-plugins: ['static_website_lhtml/plugins/menu.py', 'static_website_lhtml/plugins/redirection_first_page.py']
+plugin: ['static_website_lhtml/plugins/menu.py', 'static_website_lhtml/plugins/redirection_first_page.py']
