@@ -18,7 +18,7 @@ __Path of the scene: [02_blend_shape]__
 
 This code load a set of meshes corresponding to different key poses for the same character face.<br>
 
-In the current implement all the poses are stored as a buffer of meshes (see src/blend_shape directory). The first entry of the buffer will be considered to be the reference pose. <br>
+In the current implement all the poses are stored as an array of meshes (see src/blend_shape directory). The first entry of the array will be considered to be the reference pose (faces_storage[0]). <br>
 
 The GUI propose a set of sliders to control the weights associated to each pose but is without effect in the current state.
 
@@ -37,8 +37,9 @@ The GUI propose a set of sliders to control the weights associated to each pose 
 
 ::[height:1.5em;]::
 
-* Check that you can modulate each expression using its own weight.
+* Check that you can adapt each expression using its own weight.
 * Test also in extrapolating the deformation using weights outside \([0,1]\) range.
+
 
 ::[text-align:center;]
 videoplay::assets/blend_shape.mp4[width:100%; max-width:600px;]

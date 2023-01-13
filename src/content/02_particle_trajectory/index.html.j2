@@ -21,22 +21,35 @@ This code model procedurally the trajectory of a set of spheres falling under gr
 
 ::[height:25px;]::
 
-* > Observe how are initialized the particles. What are their initial speed ?
- Note how the particles are removed.
-* > Change the delay between the emission of a new particle (variable __timer.event_period__).
+The directory __particles__ contains the structure associated to the particle model (position, velocity, time of birth, etc.). 
+The general calls for the creation and display of the particles is defined in the file scene.cpp, in the function display_frame().
+
+* > Try to find the initial velocity of the particles ?
+** __Note: rand_interval(a,b) is a function generating a uniform value in the interval \([a,b[\).__
 * > Change the initial speed such that particles have a varying \(y\) component in their initial speed.
+
+::[height:0.5em;]::
+
+* Note how the particles are removed with the function __remove_old_particles__.
+
+::[height:0.5em;]::
+
+* > Change the delay between the emission of a new particle (variable __timer.event_period__) in the function scene_structure::initialize().
+
 
 ::[height:25px;]::
 
 So far, each sphere follows a pure parabola trajectory without taking into account its collision with the plane. 
-* > **Implement such collision response in the system** 
+* > **Implement such collision response in the system** as an explicit parametric function.
+** __You only need to implement one bounce, not an arbitrary number of them.__
 
-::[height:25px;]::
+::[height:1em;]::
 
 * __Tips__: 
+** - You should modify the code of the function __particle_structure::evaluate_position()__
 ** - Limit the computation to one bounce
-** - Compute first the time at which a particle intersects the ground. 
-** - Then set the new expression of the trajectory after the bouncing taking into account a small decrease of energy.
+*** - Compute first the time at which a particle intersects the ground. 
+*** - Then set the new expression of the trajectory after the bouncing taking into account a small decrease of energy.
 
 
 
@@ -46,6 +59,25 @@ videoplay::assets/bouncing.webm[width:550px]
 ** In the previous example, the collision is explicitly displayed by some shadow-looking effect. 
 ** > How could you model such effect ? 
 ** > Try to implement it if you have time.
+
+::[height:1em;]::
+
+General remarks:
+* In this case, you have implemented in a "procedural way" the trajectory as a "parametric function" = a trajectory which is fully defined from the input value \(t\). Such parametric approach has pros and cons: 
+** (+) The trajectory is "exact"
+*** __The particle follows the expected parabola without suffering from error accumulation along time.__
+** (+) Efficient computation at "random" time.
+*** __You can evaluate the position of the particle at an arbitrary time value (without requiring the position at a previous time).__
+** (-) Limited type of trajectory complexity.
+*** __Only one bounce is modeled, extension to an arbitrary number is possible but more complex.__
+*** __Handling bouncing between colliding spheres would be even more complex.__
+
+::[height:0.5em;]::
+
+To handle more complex trajectories (i.e. spheres colliding together), another approach would be to consider numerical time integration along a physical simulation. In such case, we would integrate the sphere's position at each time step based on the previous position, and then check if a collision occurs. This approach could lead to more complex effects on the particles trajectories, but would also lose the advantage of the parametric approach. Note that this simulation exercise will be done later in link::../08_sphere_collision/index.html[this lab].
+
+
+
 
 
 == B. User defined trajectory and billboards
@@ -69,7 +101,7 @@ A set of particles (one displayed as sphere, and the other using a semi-transpar
 
 ** - When dealing with the billboards, you may debug your trajectory in displaying a sphere instead of the semi-transparent texture.
 ** - The billboards should always face the camera.
-** - The uniform value __shading.alpha__ can send an alpha value to the shader to model a global time varying transparency level.
+** - The uniform value _material.alpha__ can send an alpha value to the shader to model a global time varying transparency level.
 
 
 videoplay::assets/cauldron.mp4[width:550px]

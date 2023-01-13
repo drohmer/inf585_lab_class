@@ -20,9 +20,13 @@
 Download any of these archive containing all the necessary codes
 
 * - On Github: [<a href="https://github.com/drohmer/inf585_code"> **https://github.com/drohmer/inf585_code** </a>]
+::[color:gray]
+** __Do not use the "Code \(\rightarrow\) Download Zip" option from github as you would not get the library__
+::
 * - Or via direct archive download:
-** - [<a href="https://imagecomputing.net/damien.rohmer/teaching/inf585/code/inf585_code.tar.gz"> code_inf585.tar.gz </a>]
 ** - [<a href="https://imagecomputing.net/damien.rohmer/teaching/inf585/code/inf585_code.zip"> code_inf585.zip </a>]
+** - [<a href="https://imagecomputing.net/damien.rohmer/teaching/inf585/code/inf585_code.tar.gz"> code_inf585.tar.gz </a>]
+
 
 ::[height:0.5em;]::
 
@@ -139,7 +143,7 @@ In the following you will only modify code in the file scene.cpp (and scene.hpp)
 ** **- link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#mesh[cgp::mesh]** storing buffer on data (per vertex: position, normal, uv, color, and triangle connectivity) on CPU
 *** This structure allows to conveniently access to all the data defining a mesh from the C++ code. However these data are not on the GPU, so a __mesh__ cannot be directly displayed. 
 ::[height:1em;]::
-** **- link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#mesh_drawable[mesh_drawable]** storing VBOs associated to these buffer once sent on the GPU memory (in the sub-structure mesh_drawable_gpu_data) as well as its VAO. The structure also stores uniform parameters that are sent to the shader at every draw call. A default shader and texture id are also be stored with the structure.
+** **- link::https://imagecomputing.net/cgp/content/02_quick_tour/index.html#mesh_drawable[cgp::mesh_drawable]** storing VBOs associated to these buffer once sent on the GPU memory (in the sub-structure mesh_drawable_gpu_data) as well as its VAO. The structure also stores uniform parameters that are sent to the shader at every draw call. A default shader and texture id are also be stored with the structure.
 *** This structure only stores the index corresponding to elements on GPU. You cannot modify individual per-vertex elements easily from this structure.
 
 ::[height:25px;]::
@@ -281,7 +285,7 @@ code::[c++]
 int N = 100;
 shape = mesh_primitive_grid({ 0,0,0 }, { 1,0,0 }, { 1,1,0 }, { 0,1,0 }, N, N);
 initial_position = shape.position;
-shape_visual.initialize(shape, "Deforming shape");
+shape_visual.initialize_data_on_gpu(shape);
 shape_visual.material.color = { 0.6f, 0.6f, 0.9f };
 code::[-]
 ::
@@ -366,7 +370,7 @@ __Note that the per-vertex uv coordinates need to be defined correctly to get th
 ::[margin-left:2.5em;]
 code::[c++]
 // Reset the color of the shape to white (only the texture image will be seen)
-shape_visual.shading.color = {1,1,1};
+shape_visual.material.color = {1,1,1};
 
 // Load the image and associate the texture id to the structure
 shape_visual.texture.load_and_initialize_texture_2d_on_gpu("assets/squirrel.jpg");
