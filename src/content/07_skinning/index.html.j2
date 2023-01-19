@@ -61,7 +61,7 @@ The method __skeleton_animation_structure::evaluate_local()__ is expected to com
 
 ::[height:0.5em;]::
 
-* > Complete the function __evaluate_local__ to **compute a smooth skeleton motion** through time
+* > Complete the function __evaluate_local__ (file skeleton/skeleton.cpp) to **compute a smooth skeleton motion** through time
 
 ::[height:0.5em;]::
 
@@ -89,7 +89,7 @@ The function receives in parameters
 
 ::[height:1em]::
 
-> **Complete the code implementing the linear blend skinning** formulation to obtain the temporal animation of the cylinder, twisting bar (showing the candy wrapper artifact), and the running character.
+> **Complete the code implementing the linear blend skinning** formulation (file __skinning/skinning.cpp__, function __skinning_LBS_compute()__) to obtain the temporal animation of the cylinder, twisting bar (showing the candy wrapper artifact), and the running character.
 
 ::[height:1em]::
 
@@ -98,6 +98,9 @@ videoplay::assets/cylinder.mp4[width:100%; max-width:300px]
 videoplay::assets/bar.mp4[width:100%; max-width:300px]
 videoplay::assets/character.mp4[width:100%; max-width:250px]
 ::
+
+::[height:1em]::
+
 
 
 == Dual quaternion skinning
@@ -115,7 +118,53 @@ Linear Blend Skinning leads to candy wrapper artifact in the case of the twistin
 videoplay::assets/bar_dq.mp4[max-width:100%;width:400px]
 ::
 
-== Possible extensions
+::[height:1em]::
+
+
+**Hints**:
+
+* - There is no dual quaternion class already coded, it is up to you to add the necessary structures and functions.
+* - Think first on how you can model a dual number with code. 
+** - The number \(\epsilon\) doesn't "exists" explicitely in code, but you can model a structure implementing the algebraic properties applied on the "real" and "dual" part of a dual quaternion (it follows the same spirit than implementing a "complex number" or "quaterion" structure for instance).
+** - You don't have to implement all the properties of dual numbers as only a subset is needed to implement dual-quaternion skinning (especially dealing with its dual part).
+
+::[height:1em]::
+
+**Reminder/summary on dual numbers**:
+
+* a) Standard operations between two dual numbers \(\hat{a}=a+\epsilon a'\), and \(\hat{b}=b+\epsilon b'\) 
+** \(\hat{a}+\hat{b}=(a+\epsilon a')+(b+\epsilon b')=a+b+\epsilon\,(a'+b')\)
+** \(\hat{a}-\hat{b}=(a+\epsilon a')-(b+\epsilon b')=a-b+\epsilon\,(a'-b')\)
+** \(\hat{a} \times \hat{b}=(a+\epsilon a')(b+\epsilon b')=a b + \epsilon\, (a' b + a b') \)
+** \(\displaystyle \hat{a} / \hat{b}=\frac{a+\epsilon a'}{b+\epsilon b'}=\frac{a}{b} + \epsilon\, \frac{a' b - b a'}{b^2} \)
+::[height:0.5em]::
+** __Note: As a rule of thumb, the dual part follows the rules of differentiation - thus the use of dual numbers for automatic differentiation.__
+
+::[height:1em]::
+
+* b) Convert unit quaternion \((q_0)\) + translation \((t)\) to a unit dual quaternion \((\hat{q})\)
+** \(\hat{q}=q_0 + \epsilon \,q_t\,q_0/2\):
+** with \(q_t=(t_x, t_y, t_z, 0)\) the associated quaternion to the translation coordinates.
+
+::[height:1em]::
+
+* c) Convert a unit dual quaternion \((\hat q=q_0+\epsilon q_\epsilon)\) into a unit quaternion \(q\) and translation \(t\):
+** \(q=q_0\)
+** \(t=(q_t.x, q_t.y, q_t.z)\) with \(q_t=2\,q_\epsilon\,q_0^{\star}\)
+*** \(q_0^{\star}\) conjugate of \(q_0\). 
+
+::[height:1em]::
+
+* d) Normalize a non unit dual quaternion \(\hat{Q}=Q_0+\epsilon Q_\epsilon\) into a unit dual quaternion \(\hat{q}=q_0+\epsilon q_\epsilon\):
+** \(\hat{q}=\hat{Q}/\|Q_0\|=Q_0/\|Q_0\|+\epsilon \, Q_\epsilon/\|Q_0\|\)
+
+::[height:1em]::
+
+
+
+
+
+== Possible extensions (ex. for final project)
 
 * - Make you character controlable interactively (ex. using the keyboard) in adapting its displacement and orientation.
 * - Code the possibility to switch between different animations: running, walking, idle, and automatize these transitions when appropriate with respect to the motion of the character.
