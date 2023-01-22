@@ -43,11 +43,12 @@ With \(b_{i/j/k}\) the Bezier basis function, \(g_{ijk}\) the absolute coordinat
 
 __Hints__
 
-* You will need to complete the functions __precompute_weights()__ and __ffd_deform()__.
-* The grid-vertex coordinates \(g_{ijk}\) can be accessed as grid(kx,ky,kz) for the integer indices kx, ky, kz. Its dimension along the three directions can be accessed as grid.dimension.x/y/z.
+* - You will need to complete the functions __precompute_weights()__ and __ffd_deform()__.
+* - The grid-vertex coordinates \(g_{ijk}\) can be accessed as grid(kx,ky,kz) for the integer indices kx, ky, kz. Its dimension along the three directions can be accessed as grid.dimension.x/y/z.
 * 
-* A function computing \({N \choose i}\) is provided as __binomial_coeff(N,k)__ (in file ffd.cpp).
-* You may need to precompute values related to the parameteric coordinates of the vertices in the grid, and pass these values as argument of the function __ffd_deform()__.
+* - A function computing \({N \choose i}\) is provided as __binomial_coeff(N,k)__ (in file ffd.cpp).
+* - Beware that to approximate \(N\) points (\(p_k\,, \;k\in[\![0,N[\![\)) with a Bezier polynomial, you need to consider a polynomial of degree \(N-1\) (linear for 2 points, cubic for 4 points, etc). 
+* - You may need to precompute values related to the parameteric coordinates of the vertices in the grid, and pass these values as argument of the function __ffd_deform()__.
 
 
 ::[text-align:center;]
