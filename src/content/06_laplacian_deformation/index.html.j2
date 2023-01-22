@@ -116,11 +116,15 @@ int main()
     // Build matrix
     Eigen::SparseMatrix<float> M;
     
-    // Resize and reserve space to store coefficients
-    //   ex. N*N rows, 10 coeffs per rows
+    
     int N = 50;
     M.resize(N,N);
-    M.reserve(Eigen::VectorXi::Constant(N*N,10));
+    // Note: A sparse matrix doesn't store explicitly 0-value entries
+
+    // Reserve space to store non-zero coefficients
+    //   ex. N rows, 10 non-zero coeffs per rows (only a guess for efficiency purpose)
+    M.reserve(Eigen::VectorXi::Constant(N,10));
+
     // Fill the matrix ... M.coeffRef(i,j) = value
     for(int k=0; k<N; ++k) {
         M.coeffRef(k,k)=1.0f; M.coeffRef(k,(k+1)%N)=-0.3f;
