@@ -1,0 +1,37 @@
+{% set pageTitle = 'Procedural Animation - Cauldron' %}
+{% set tocTitle = 'Cauldron' %}
+
+{% extends "theme/template/base.html" %}
+
+
+
+{% block content %}
+
+== Procedural Animation - Cauldron
+
+::[color:gray;]
+__Path of the scene: [01_procedural/b_billboards]__
+::
+::[height:25px;]::
+
+This code display a scene in loading some external .obj meshes: A cauldron and a spoon
+* __Note: The meshes files are stored in the directory assets/. This directory should be accessible from the place where your executable is run.__
+
+::[height:25px;]::
+
+A set of particles (one displayed as sphere, and the other using a semi-transparent textured mapped onto a quad) are emited regularily. <br>
+> **Modify the code to model a scene similar to the following one**.
+
+::[height:25px;]::
+
+* __Tips__
+
+** - When dealing with the billboards, you may debug your trajectory in displaying a sphere instead of the semi-transparent texture.
+** - The billboards should always face the camera.
+** - The uniform value _material.alpha__ can send an alpha value to the shader to model a global time varying transparency level.
+
+
+videoplay::assets/cauldron.mp4[width:550px]
+
+
+{% endblock %}

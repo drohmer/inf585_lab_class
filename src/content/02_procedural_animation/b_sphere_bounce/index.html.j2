@@ -1,12 +1,12 @@
-{% set pageTitle = 'Procedural Motion - particles trajectories' %}
-{% set tocTitle = 'Procedural Trajectories' %}
+{% set pageTitle = 'Procedural Animation - Sphere bounce' %}
+{% set tocTitle = 'Sphere bounce' %}
 
 {% extends "theme/template/base.html" %}
 
 
 
 {% block content %}
-== A. Spheres falling under gravity
+== Procedural Animation - Sphere bounce
 
 ::[color:gray;]
 __Path of the scene: [01_procedural/a_bouncing_spheres]__
@@ -25,7 +25,7 @@ The directory __particles__ contains the structure associated to the particle mo
 The general calls for the creation and display of the particles is defined in the file scene.cpp, in the function display_frame().
 
 * > Try to find the initial velocity of the particles ?
-** __Note: rand_interval(a,b) is a function generating a uniform value in the interval \([a,b[\).__
+** __Note: rand_uniform(a,b) is a function generating a uniform random float value in the interval \([a,b[\).__
 * > Change the initial speed such that particles have a varying \(y\) component in their initial speed.
 
 ::[height:0.5em;]::
@@ -58,7 +58,7 @@ videoplay::assets/bouncing.webm[width:550px]
 * __Extra__:
 ** In the previous example, the collision is explicitly displayed by some shadow-looking effect. 
 ** > How could you model such effect ? 
-** > Try to implement it if you have time.
+** > Try to implement it if you have time - otherwise move to another exercise.
 
 ::[height:1em;]::
 
@@ -74,37 +74,11 @@ General remarks:
 
 ::[height:0.5em;]::
 
-To handle more complex trajectories (i.e. spheres colliding together), another approach would be to consider numerical time integration along a physical simulation. In such case, we would integrate the sphere's position at each time step based on the previous position, and then check if a collision occurs. This approach could lead to more complex effects on the particles trajectories, but would also lose the advantage of the parametric approach. Note that this simulation exercise will be done later in link::../08_sphere_collision/index.html[this lab].
+To handle more complex trajectories (i.e. spheres colliding together), another approach would be to consider numerical time integration along a physical simulation. In such case, we would integrate the sphere's position at each time step based on the previous position, and then check if a collision occurs. This approach could lead to more complex effects on the particles trajectories, but would also lose the advantage of the parametric approach. Note that this simulation exercise will be done later in link::../../08_sphere_collision/index.html[this lab].
 
 
 
 
-
-== B. User defined trajectory and billboards
-
-::[color:gray;]
-__Path of the scene: [01_procedural/b_billboards]__
-::
-::[height:25px;]::
-
-This code display a scene in loading some external .obj meshes: A cauldron and a spoon
-* __Note: The meshes files are stored in the directory assets/. This directory should be accessible from the place where your executable is run.__
-
-::[height:25px;]::
-
-A set of particles (one displayed as sphere, and the other using a semi-transparent textured mapped onto a quad) are emited regularily. <br>
-> **Modify the code to model a scene similar to the following one**.
-
-::[height:25px;]::
-
-* __Tips__
-
-** - When dealing with the billboards, you may debug your trajectory in displaying a sphere instead of the semi-transparent texture.
-** - The billboards should always face the camera.
-** - The uniform value _material.alpha__ can send an alpha value to the shader to model a global time varying transparency level.
-
-
-videoplay::assets/cauldron.mp4[width:550px]
 
 
 {% endblock %}
