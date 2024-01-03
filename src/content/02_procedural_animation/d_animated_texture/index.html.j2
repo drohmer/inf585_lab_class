@@ -7,13 +7,30 @@
 
 {% block content %}
 
-== Procedural Animation - Animated Texture
+= Procedural Animation - Animated Texture
 
 ::[color:gray;]
 __Path of the scene: [01_procedural/c_texture]__
 ::
 ::[height:25px;]::
 
+This code display a quadrangle with a procedural animated texture image. The computation of the texture image is directly performed in a fragment shader in the file `shaders/animated_texture/animated_texture.frag.glsl`. <br><br>
+
+An initial procedural texture is available in the example code and display an evolving random texture in the radial direction using polar coordinates. 
+* - The random nature of the texture is obtained via the call of the `snoise` function that features simplex noise (/perlin noise). 
+* - The `snoise` function is already provided for 2 and 3 input variables. 
+* - The `snoise` is a variant of the default `snoise` where the summation over the octave is performed on the absolute values of the pseudo-random function.
+
+::[height:2em;]::
+
+**Objective**: Adapt the code of the fragment shader to reproduce the effect displayed in the following example.
+
+::[height:2em;]::
+
+::[text-align:center]
+videoplay::assets/animated_texture.mp4[width:100%; max-width:400px]
+<br>
 [link::web/index.html[Interactive view]]
+::
 
 {% endblock %}
