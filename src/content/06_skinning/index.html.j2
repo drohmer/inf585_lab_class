@@ -1,5 +1,5 @@
-{% set pageTitle = 'Character Animation - Skinning' %}
-{% set tocTitle = 'Skinning' %}
+{% set pageTitle = 'Skinning Deformation' %}
+{% set tocTitle = 'Skinning Deformation' %}
 
 {% extends "theme/template/base.html" %}
 
@@ -7,121 +7,102 @@
 
 {% block content %}
 
+= Skinning deformation
 
-= Character Animation - Skinning
-
-To be updated
-
-<!--
 ::[color:gray;]
-__Path of the code: [06_skinning]__
+__Path of the scene: [05_skinning/]__
 ::
+::[height:25px;]::
 
-::[height:1em;]::
-
-The objective of this scene is to model skeleton-based character deformation using linear blend skinning and dual quaternion skinning.
-
-::[height:0.5em;]::
-
-In the current state of the program an animated skeleton can be played, and a mesh which is expected to be deformed by skinning. The animation of the skeleton is already coded, but there is no interpolation between key poses. The geometrical deformation of the associated mesh by skinning is not coded either.
-
-
-== Proposed mesh and skeleton animation
-
-Three mesh model with their animated skeletong are already coded
+The objective of this scene is to model skeleton-based character deformation using linear blend skinning and dual quaternion skinning, as well as an automatic computation of skinning weights.
 
 ::[height:0.5em;]::
 
-- A cylindrical model following two different bending motions fully procedurally generated <br>
-- A rectangular bar model following a bending and twisting motion fully procedurally generated <br>
-- A more complex pre-made character with runing, walking and idle motion. The character and motions are stored as external files (loaders are provided). <br>
-* - Note that the file format doesn’t follow any standard, but correspond, in this case, to a simple ASCII format easy to read and parse
-* - You can find all the elements of the character description in assets/marine.
-* - Note that standard file format handling skinning are often more complex to analyse. An example of such format is Collada: an open XML based format, but several other software specific format (.3ds, .blend, .fbx, etc.) can also handle skinning.
+Once completed, your result should be similar to this link::web/index.html[online version].
 
-
-
-== Skeleton encoding
-
-The skeleton is stored in a simple format assuming tree like organization from the root node.
 
 ::[height:0.5em;]::
 
-- A vector stores for each node/joint its geometry encoded as 3D position and rotation (quaternion). 
-* __The geometry is expressed in a local coordinate frame with respect to the parent joint.__
-* __This vector is build such that child joints are always encoded after their respective parent__
+In the current initial state of the program three models are proposed:
+* - A cylinder surface, associated to a skeleton with two bones (3 joints) that can bend, and/or twist (can be controled by the GUI interface).
+* - A cow model, associated to a more generic skeleton. The skeleton is described from file inputs available in `assets/spot/`.
+* - The motion of the skeleton is hard coded in the program. In file `scene.cpp`, function `animate_skeleton`.
 
-<br>
+::[height:1.5em;]::
 
-- Another vector indicates the parent index of the k-th entry within the vector, therefore storing the connectivity of the tree structure. <br>
-
-- Given the local geometry and the tree connectivity, the function __skeleton_local_to_global()__ compute the global 3D coordinates of each joint.
-
-
-== Skeleton motion
-
-The method __skeleton_animation_structure::evaluate_local()__ is expected to compute the interpolation of the skeleton at a given time \(t\). In the current state, the nearest(/smaller integer) neighbor is picked which leads to discontinuous motion.
-
-::[height:0.5em;]::
-
-* > Complete the function __evaluate_local__ (file skeleton/skeleton.cpp) to **compute a smooth skeleton motion** through time
-
-::[height:0.5em;]::
-
-* Note that the structure __affine_rt__ stores a rigid transform as a rotation (internally stored as a quaternion) and a position (vec3)
-** __A linear interpolation of rotation in the space of quaternion is available (LERP) in the rotation structure__
-** __You can also code a SLERP interpolation__
-
-::[text-align:center;]
-videoplay::assets/skeleton_cylinder.webm[width:100%; max-width:400px]
-videoplay::assets/skeleton_character.webm[width:100%; max-width:250px]
-::
+* - Procedural skinning weights are already provided for the case of the cylinder and bar. In `scene.cpp`, function `compute_skinning_weights_cylinder()`. 
+** \(w_0=\frac{1}{2}|x/2|^\alpha\), \(w_1=1-w_0\), \(w_2=0\) for vertices with \(x<0.5\)
+** \(w_0=\frac{1}{2}\left|1-\frac{x-1/2}{2}\right|^\alpha\), \(w_1=1-w_0\), \(w_2=0\) for vertices with \(x\geq 0.5\).
+* - The value of the exponent \(\alpha\) can be interactively modified in the GUI interface.
+* - This function only works in the case of a 3-joint skeleton with a tubular mesh oriented along the \(x\)-coordinate, and \(x\in[0,1]\).
+* - The model of cow doesn't have skinning weights computed and remains static.
 
 
 == Linear Blend Skinning
 
-The function __skinning_LBS_compute()__ (file skinning.cpp) is expected to compute the deformation for each vertex with respect to the linear blend skinning formulation.
+The first objective is to complete the linear blend skinning deformation to make it work on the cylinder and bar model. The function to be completed is in the file `animated_model.cpp`, function `skinning_lbs()`.
 
-::[height:0.5em;]::
 
-The function receives in parameters 
-* - the deformed mesh positions (and normals) to be filled
-* - the current skeleton geometry and the associated rest pose (already in global coordinate system)
-* - the positions (and normals) of the mesh in the rest pose
-* - the skinning weights (stored in variable __rig_structure__).
+::[height:1.5em;]::
 
-::[height:1em]::
+We remind the Linear Blend Skinning formulation: \(\displaystyle p_i = \sum_j \omega_{ij} T_j\;p_i^0\), where
+* - \(i\) is the current vertex index, and \(j\) varies over the skeleton's joints.
+* - \(p_i\) is the newly deformed position of vertex \(i\)
+* - \(p^0_i\) is the initial position of vertex \(i\) in the so called "bind pose".
+* - \(\omega_{ij}\) is the skinning weights relating the vertex \(i\) and joint \(j\).
+* - \(T_j\) is the 4 \(\times\) 4 transformation matrix corresponding to the rigid transform on joint \(j\) from its bind pose to its current one.
+* This transformation matrix can be express itself with respect to the joint frame matrices in the current pose \(M_j\) and bind pose \(M_j^0\), where \(M_j\) represent the orientation and position of the joint in the global reference space: \(T_j= M_j \, (M_j^0)^{-1}\).
 
-> **Complete the code implementing the linear blend skinning** formulation (file __skinning/skinning.cpp__, function __skinning_LBS_compute()__) to obtain the temporal animation of the cylinder, twisting bar (showing the candy wrapper artifact), and the running character.
+::[height:1.5em;]::
 
-::[height:1em]::
+* Note: The difference between \(T_j\) and \(M_j\) is that:
+** \(M_j\) represents an absolute orientation and position of the joint frame in space.
+** \(T_j\) represents a transformation between the bind pose to the current skeleton state.
 
-::[text-align:center;]
-videoplay::assets/cylinder.mp4[width:100%; max-width:300px]
-videoplay::assets/bar.mp4[width:100%; max-width:300px]
-videoplay::assets/character.mp4[width:100%; max-width:250px]
+
+::[height:1.5em;]::
+
+Once implemented, you should obtain a valid bending-like deformation for the cylinder and the bar. <br>
+__Note: It is normal that the cow is not yet deforming as it lacks skinning weights, and the twisting motion on the cylinder and bar would lead to collapsing artifact.__
+
+
+::[text-align:center]
+videoplay::assets/skinning_cylinder.mp4[width:100%; max-width:450px]
 ::
 
-::[height:1em]::
 
+== Generating skinning weights
 
+The cow model only contains a mesh and an animated skeleton, but lacks skinning weights. The goal in this part is to adapt the function `compute_skinning_weights_generic()` in the file `scene.cpp`in order to generate skinning weights automatically.
 
-== Dual quaternion skinning
+A possibility is to compute the skinning weights as
+\(w_{ij}=\kappa(d_{ij})/\sum_j \kappa(d_{ij})\), where
+* - \(d_{ij}\) is the closest cartesian distance between the position of vertex \(i\) and the bone segments starting at joint \(j\).
+* - \(\kappa\) is a kernel function that gives higher skinning weights to small distance values than large ones. For instance \(\kappa(x)=1/x^\alpha\).
 
-Linear Blend Skinning leads to candy wrapper artifact in the case of the twisting bar.
+::[height:1.5em;]::
 
-::[height:1em]::
+Once computed, the cow model should now be animated along its skeletal animation.
 
-* > **Implement a Dual Quaternion Skinning** and use it for the deformation of the bar. This artifact should disapear.
-* __Note: the character is not set for dual quaternion skinning, and some joint animation may lead to artifacts if applied with the current weights to this character.__
-
-::[height:1em]::
-
-::[text-align:center;]
-videoplay::assets/bar_dq.mp4[max-width:100%;width:400px]
+::[text-align:center]
+videoplay::assets/skinning_cow.mp4[width:100%; max-width:400px]
 ::
 
-::[height:1em]::
+__Rem. It is normal that the automatic computation of skinning weights doesn't provide a perfect result. To achieve better results, more advanced distance computation (e.g. taking into account interior/exterior of the shape could be considered). Ultimately, modeling software like Blender or Maya allows to manually paint weights for fine tuning.__
+
+
+== Dual Quaternion Skinning
+
+The use of Linear Blend Skinning on the twist motion of the cylinder and bar leads to collapsing artifact due to the linear blending of the transformation matrix components.
+A solution to this problem is the use of the __Dual Quaternion Skinning__: DQS.
+
+::[height:1.5em;]::
+
+Implement the dual quaternion skinning deformation in the function `skinning_dqs()` from file `animated_model.cpp`. Once implemented, the twist motion on the bar should look like the following.
+
+::[text-align:center]
+videoplay::assets/skinning_bar.mp4[width:100%; max-width:400px]
+::
 
 
 **Hints**:
@@ -161,17 +142,7 @@ videoplay::assets/bar_dq.mp4[max-width:100%;width:400px]
 * d) Normalize a non unit dual quaternion \(\hat{Q}=Q_0+\epsilon Q_\epsilon\) into a unit dual quaternion \(\hat{q}=q_0+\epsilon q_\epsilon\):
 ** \(\hat{q}=\hat{Q}/\|Q_0\|=Q_0/\|Q_0\|+\epsilon \, Q_\epsilon/\|Q_0\|\)
 
-::[height:1em]::
 
-
-
-
-
-== Possible extensions (ex. for final project)
-
-* - Make you character controlable interactively (ex. using the keyboard) in adapting its displacement and orientation.
-* - Code the possibility to switch between different animations: running, walking, idle, and automatize these transitions when appropriate with respect to the motion of the character.
--->
 
 
 {% endblock %}
