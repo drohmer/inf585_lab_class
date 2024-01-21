@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   sodipodi:docname="structure_graph.svg"
+   inkscape:export-filename="structure_graph.png"
+   inkscape:export-xdpi="236.3994"
+   inkscape:export-ydpi="236.3994"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.9002916"
+     inkscape:cx="345.7364"
+     inkscape:cy="295.21784"
+     inkscape:window-width="2560"
+     inkscape:window-height="1309"
+     inkscape:window-x="419"
+     inkscape:window-y="144"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:none;stroke:#1a1a1a;stroke-width:0.4;stroke-dasharray:none"
+       id="rect1"
+       width="27.462179"
+       height="26.789745"
+       x="24.497532"
+       y="39.720985" />
+    <rect
+       style="fill:#ffffff;stroke:#1a1a1a;stroke-width:0.4;stroke-dasharray:none"
+       id="rect1-8"
+       width="36.326767"
+       height="15.249962"
+       x="50.037441"
+       y="43.80056" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.66654px;font-family:Arial;-inkscape-font-specification:'Arial Bold';opacity:1;fill:#000000;stroke:none;stroke-width:0.343577;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"
+       x="25.603148"
+       y="42.84557"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="fill:#000000;stroke:none;stroke-width:0.343577;-inkscape-font-specification:'Arial Bold';font-family:Arial;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal"
+         x="25.603148"
+         y="42.84557">character structure</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.343577"
+       x="28.121399"
+       y="49.109741"
+       id="text1-95"><tspan
+         sodipodi:role="line"
+         id="tspan1-4"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#0000ff;stroke:none;stroke-width:0.343577"
+         x="28.121399"
+         y="49.109741">animated_model</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#000000;stroke:none;stroke-width:0.343577"
+         x="28.121399"
+         y="51.760719"
+         id="tspan8" /><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#000000;stroke:none;stroke-width:0.343577"
+         x="28.121399"
+         y="54.411701"
+         id="tspan9">name</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#000000;stroke:none;stroke-width:0.343577"
+         x="28.121399"
+         y="57.062679"
+         id="tspan4">timer</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#000000;stroke:none;stroke-width:0.343577"
+         x="28.121399"
+         y="59.713657"
+         id="tspan2">mesh_drawable</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#000000;stroke:none;stroke-width:0.343577"
+         x="28.121399"
+         y="62.364639"
+         id="tspan3">skeleton_drawable</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.66654px;font-family:Arial;-inkscape-font-specification:Arial;fill:#0000ff;stroke:none;stroke-width:0.343577"
+       x="51.017437"
+       y="46.957249"
+       id="text1-9"><tspan
+         sodipodi:role="line"
+         id="tspan1-8"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#0000ff;stroke:none;stroke-width:0.343577"
+         x="51.017437"
+         y="46.957249">animated_model_structure</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';opacity:1;fill:#000000;stroke:none;stroke-width:0.319401"
+       x="52.805252"
+       y="51.247013"
+       id="text5"><tspan
+         sodipodi:role="line"
+         id="tspan5"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#ff0000;stroke-width:0.319401"
+         x="52.805252"
+         y="51.247013">skeleton</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#000000;stroke:none;stroke-width:0.319401"
+       x="52.937263"
+       y="54.27396"
+       id="text5-4"><tspan
+         sodipodi:role="line"
+         id="tspan5-3"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#008000;stroke-width:0.319401"
+         x="52.937263"
+         y="54.27396">[skeleton_animation]</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#ff6600;stroke-width:0.319401"
+         x="52.937263"
+         y="56.919796"
+         id="tspan7">[rigged_mesh]</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.85865px;font-family:Symbol;-inkscape-font-specification:Symbol;fill:#000000;stroke:none;stroke-width:0.754874"
+       x="35.647511"
+       y="89.804619"
+       id="text5-4-0"><tspan
+         sodipodi:role="line"
+         id="tspan5-3-0"
+         style="fill:#000000;stroke-width:0.754874"
+         x="35.647511"
+         y="89.804619" /><tspan
+         sodipodi:role="line"
+         style="fill:#000000;stroke-width:0.754874"
+         x="35.647511"
+         y="97.12793"
+         id="tspan6" /></text>
+    <rect
+       style="fill:#ffffff;stroke:#1a1a1a;stroke-width:0.401557"
+       id="rect1-8-8"
+       width="40.611378"
+       height="15.249961"
+       x="91.186211"
+       y="35.658527" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.66654px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;stroke:none;stroke-width:0.343577"
+       x="92.166199"
+       y="38.815216"
+       id="text1-9-7"><tspan
+         sodipodi:role="line"
+         id="tspan1-8-1"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#ff0000;stroke:none;stroke-width:0.343577"
+         x="92.166199"
+         y="38.815216">skeleton_structure</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#1a1a1a;stroke-width:0.401557"
+       id="rect1-8-8-1-0"
+       width="40.611378"
+       height="15.249961"
+       x="91.287903"
+       y="52.003174" />
+    <rect
+       style="fill:#ffffff;stroke:#1a1a1a;stroke-width:0.401557"
+       id="rect1-8-8-1"
+       width="40.611378"
+       height="15.249961"
+       x="91.442459"
+       y="68.707787" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.66654px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;stroke:none;stroke-width:0.343577"
+       x="92.815498"
+       y="72.660316"
+       id="text1-9-7-1"><tspan
+         sodipodi:role="line"
+         id="tspan1-8-1-4"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#ff6600;stroke:none;stroke-width:0.343577"
+         x="92.815498"
+         y="72.660316">rigged_mesh_structure</tspan></text>
+    <rect
+       style="fill:#ffffff;stroke:#1a1a1a;stroke-width:0.401557"
+       id="rect1-8-8-1-00"
+       width="43.047729"
+       height="15.249962"
+       x="118.57899"
+       y="76.727707" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.66654px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;stroke:none;stroke-width:0.343577"
+       x="119.95204"
+       y="80.680237"
+       id="text1-9-7-1-1"><tspan
+         sodipodi:role="line"
+         id="tspan1-8-1-4-0"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#d4aa00;stroke:none;stroke-width:0.343577"
+         x="119.95204"
+         y="80.680237">controller_skinning_structure</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.66654px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;stroke:none;stroke-width:0.343577"
+       x="92.66095"
+       y="55.955704"
+       id="text1-9-7-1-6"><tspan
+         sodipodi:role="line"
+         id="tspan1-8-1-4-2"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#008000;stroke:none;stroke-width:0.343577"
+         x="92.66095"
+         y="55.955704">skeleton_animation_structure</tspan></text>
+    <path
+       style="opacity:1;fill:#1a1a1a;stroke:#1a1a1a;stroke-width:0.25;stroke-dasharray:none"
+       d="m 45.198462,48.726967 h 4.788683"
+       id="path8" />
+    <path
+       style="opacity:1;fill:none;stroke:#1a1a1a;stroke-width:0.25;stroke-dasharray:none"
+       d="m 65.19332,50.575231 h 22.011148 v -5.04072 h 3.948565"
+       id="path9" />
+    <path
+       style="opacity:1;fill:none;stroke:#1a1a1a;stroke-width:0.25;stroke-dasharray:none"
+       d="M 77.375063,53.683675 H 91.321055"
+       id="path10"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="opacity:1;fill:none;stroke:#1a1a1a;stroke-width:0.25;stroke-dasharray:none"
+       d="m 72.586378,57.128167 h 14.954139 v 17.390488 h 4.032577"
+       id="path11"
+       sodipodi:nodetypes="cccc" />
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';opacity:1;fill:#1a1a1a;stroke:none;stroke-width:0.0793712;stroke-dasharray:none"
+       x="94.606445"
+       y="42.602234"
+       id="text11"><tspan
+         sodipodi:role="line"
+         id="tspan11"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0793712"
+         x="94.606445"
+         y="42.602234">joint_matrix_local/global</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0793712"
+         x="94.606445"
+         y="45.24807"
+         id="tspan12">joint_name</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0793712"
+         x="94.606445"
+         y="47.893909"
+         id="tspan13">parent_index</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674;stroke-dasharray:none"
+       x="94.856834"
+       y="58.686359"
+       id="text11-6"><tspan
+         sodipodi:role="line"
+         id="tspan11-1"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="94.856834"
+         y="58.686359">joint_index</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="94.856834"
+         y="61.332195"
+         id="tspan12-9">times</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="94.856834"
+         y="63.978035"
+         id="tspan13-6">matrix</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#666666;stroke:none;stroke-width:0.0631674"
+         x="94.856834"
+         y="66.623871"
+         id="tspan14">   evaluate(joint, time)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.96099px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674;stroke-dasharray:none"
+       x="95.067947"
+       y="76.471191"
+       id="text11-6-1"><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="95.067947"
+         y="76.471191"
+         id="tspan14-9">mesh_bind_pose</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="95.067947"
+         y="78.922432"
+         id="tspan17">mesh_deformed</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#aa8800;stroke:none;stroke-width:0.0631674"
+         x="95.067947"
+         y="81.373665"
+         id="tspan18">controller_skinning</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674;stroke-dasharray:none"
+       x="122.45266"
+       y="84.009903"
+       id="text11-6-1-5"><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="122.45266"
+         y="84.009903"
+         id="tspan18-0">vertex_dependence (joint_index, weight)</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="122.45266"
+         y="86.655739"
+         id="tspan21">rig_index_to_skeleton_index</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="122.45266"
+         y="89.301575"
+         id="tspan22">inverse_bind_matrices</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#1a1a1a;stroke:none;stroke-width:0.0631674"
+         x="122.45266"
+         y="91.947418"
+         id="tspan20" /></text>
+  </g>
+</svg>
