@@ -44,23 +44,25 @@ To handle this generic input, the function is encoded to received a 2D grid of t
 
 ::[height:1em;]::
 
-The equation is solved numerically using an implicit scheme in order to ensure inconditional stability: 
+The equation is solved numerically using an implicit scheme in order to ensure unconditional stability: 
 
 ::[height:1em;]::
 
-\((1+4\Delta t\,\mu)\,f ^ {k+1} _ {x,y}=f ^ {k} _ {x,y}+\Delta t\,\mu\left(f ^ {k+1} _ {x+1,y}+f ^ {k+1} _ {x-1,y}+f ^ {k+1} _ {x,y+1}+f ^ {k+1} _ {x,y-1}\right)\)
+\((1+4\Delta t\,\mu)\,f ^ {t} _ {x,y}=f ^ {t-\Delta t} _ {x,y}+ \mu\,\Delta t\,\left(f ^ {t} _ {x+1,y}+f ^ {t} _ {x-1,y}+f ^ {t} _ {x,y+1}+f ^ {t} _ {x,y-1}\right)\)
 
-::[height:1em;]::
+::[height:2em;]::
 
-**> Implement the numerical solution of this equation using Gauss Seidel iterations (consider around 15 iterations).**
+> Implement the numerical solution of this equation using Gauss Seidel iterations (consider around 15 iterations). The function to complete use template arguments and is defined in the file `simulation.**hpp**`.
 
 ::[height:1em;]::
 
 __Note__:
+* - For each Gauss Seidel iteration, you may set the values of the grid boundary using the pre-coded function set_boundary.
+* - The Gauss Seidel method consists in iterating over
+** \(\forall (x,y), \;\displaystyle (f_{x,y}^{t})^{\text{new}} = \frac{1}{1+4\,\mu\,\Delta t}\left(f ^ {t-\Delta t} _ {x,y}+\mu\,\Delta t\left(f ^ {t} _ {x+1,y}+f ^ {t} _ {x-1,y}+f ^ {t} _ {x,y+1}+f ^ {t} _ {x,y-1}\right)\right)\)
+** \(\displaystyle \forall (x,y),\;f_{x,y}^{t} \leftarrow (f_{x,y}^{t})^{\text{new}}\)
 
-* - __even if \(f\) is a template parameter, you can use its value as any variable (ex. f(x,y), f(x-1,y), etc.)__
 
-* - __for each Gauss Seidel iteration, you may set the values of the grid boundary using the pre-coded function set_boundary.__
 
 
 ::[text-align:center;]
@@ -79,11 +81,11 @@ To ensure stable advection, backtracing can be use in setting the value \(f(p,t)
 
 ::[height:1em;]::
 
-The advection function is already implemented in the function __advect__ using bilinear interpolation at position \(p-\Delta t\,v(p,t)\). Pay attention to not fetch values outside the boundaries of the grid.
+The advection function is **already** implemented in the function __advect__ using bilinear interpolation at position \(p-\Delta t\,v(p,t)\). Pay attention to not fetch values outside the boundaries of the grid.
 
 ::[height:1em;]::
 
-Once implemented, you should be able to create visible motion from your mouse trajectory in your density. This motion should be smooth, but doesn't ensure yet incompressible behavior.
+You should be able to create visible motion from your mouse trajectory in your density. This motion should be smooth, but doesn't ensure yet incompressible behavior.
 
 ::[text-align:center;]
 videoplay::assets/advection.mp4[width:100%; max-width:450px]

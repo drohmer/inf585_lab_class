@@ -21,34 +21,41 @@ Each particle is associated to the following parameters: position \(p\), speed \
 
 ::[height:1em;]::
 
-The position and speed of each particle is updated through time thanks to a discrete integration
+The position and speed of each particle is updated through time using a discrete integration in the file `simulation/simulation.cpp`
 
 * - \(v^{k+1} = v^{k} + \Delta t\;f^{k}\)
 
 * - \(p^{k+1} = p^{k} + \Delta t\;v^{k+1}\)
 
+::[height:2em;]::
+
+In the current state of the program, only the gravity is taken into account. But the collision with the cube boundaries and between the sphere need to be implemented.
 
 == Collisions
 
-At the current state of the program, only gravity is took into account.
+Add the collision detection and response between the spheres and boundary faces of the cube using impulse based response on the sphere velocities.
 
-* > **Add collision detection and response between the spheres and the faces of the cube**.
+::[height:2em;]::
 
-* > **Add collision detection and response between the sphere themselves**.
+The collision response can be implemented in two steps:
 
-::[height:1em;]::
+* - First applying impulse response to generate the bouncing (with the cube, and other particles)
+* - Second canceling the velocity components that still generate a penetration (with the cube, and other particles)
 
-Note that when multiple spheres are involved in stack, the multiple collisions cannot be solved only by a single pair-wise correction. This can lead to jittering behavior. To limit such effect you can
-* - perform several integration steps and collision correction with smaller timer steps before displaying the result
-* - avoid bouncing between colliding particles with small relative velocity
+Once the velocity is computed, then the sphere positions are finally updated
+
 
 ::[text-align:center;]
 videoplay::assets/spheres_collision.mp4[width:100%; max-width:500px]
 ::
 
+::[height:2em;]::
+
+Note: You may perform several iterations of the numerical integration at each frame in order to speed up the simulation, while keeping a constant (or smaller) time step.
+
 == Possible extension
 
-* Allow the user to move the box interactively.
+* Allow the user to move the box interactively. (In this case, the particles that goes out of the cube will need to get their position projected back inside the cube.)
 
 * Speed-up the collision detection in building a spatial acceleration structure such as a regular grid storing neighboring particles.
 

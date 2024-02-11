@@ -8,6 +8,125 @@
 
 = Simulation - Shape Matching with PPD
 
-To be updated
+::[color:gray;]
+__Path of the code: [10_shape_matching]__
+::
+
+::[height:2em;]::
+
+The objective of this exercise is to implement a Rigid Body simulation using PPD approach and Shape Matching.
+This approach relates to the publications
+::[font-size:85%;]
+* - [ link::https://matthias-research.github.io/pages/publications/MeshlessDeformations_SIG05.pdf[Matthias Muller, Bruno Heidelberger, Matthias Teschner, Markus Gross. Meshless Deformations Based on Shape Matching. SIGGRAPH 2005.] ]
+* - [ link::https://matthias-research.github.io/pages/publications/flex.pdf[Miles Macklin, Matthias Muller, Nuttapong Chentanez, Tae-Yong Kim. Unified Particle Physics for Real-Time Applications. SIGGRAPH 2014.] ]
+::
+
+::[height:2em;]::
+
+::[text-align:center]
+<a href="web/index.html">
+videoplay::assets/shape_matching.mp4[width:100%; max-width:500px;] 
+</a>
+::
+
+Once completed, the result should be similar to this link::web/index.html[online version].
+
+== Program structure
+
+The current program applies a standard integration using the Position Based Dynamics approach over object (cubes, cylinder, cones, etc.) made from multiple particles positionned at the vertex of their respective mesh. This integration is performed in the file `simulation/simulation.cpp`.
+
+::[height:2em;]::
+
+During the simulation, the positions are constrained with three functions:
+* - `collision_with_walls`: Ensure that the particles don't enter in the ground and the two walls.
+* - `collision_between_particles`: Handle the collision between particles belonging to different objects.
+* - `shape_matching`: Ensure the particle of a given object preserves its original shape.
+
+So far, only `collision_with_walls` is completed, and the two other functions need to be filled.
+
+== Shape matching
+
+First start by implementing the function `shape_matching` for a rigid transformation.
+
+::[height:2em;]::
+
+__Reminders on shape matching:__
+* We consider an object initially defined by a reference shape with vertex positions \(p_i^{ref}\), and barycenter \(c^\text{ref}\).
+* We call \(p_i\) the vertex position, and \(c\) the barycenter of the current deformed object state.
+* We call \(\mathrm{T}\) the transformation matrix such that 
+** \(\displaystyle \mathrm{T}=\sum_i (p_i-c)\,(p_i^\text{ref}-c^\text{ref})^T\)
+** This matrix represents the transformation that minimizes \(\|\mathrm{T}\,(p_i^\text{ref}-c^\text{ref})-(p_i-c)\|^2\)
+
+::[height:1em;]::
+
+* The shape matching approach for rigid deformation consists in 
+** 1- Computing the rotation matrix \(\mathrm{R}\) given as the polar decomposition of \(\mathrm{T}\), i.e. the rotation approximating at best the transformation \(\mathrm{T}\).
+** 2- And use it to set the new vertex positions \(q_i\) as \(q_i=\mathrm{R}(p_i^\text{ref}-c^\text{ref})+c\)
+
+::[height:1em;]::
+
+
+Once implemented, the new object you create should preserve their shape and collide with the walls. 
+
+== Collision between particles
+
+Now add the collision between shapes. To this end, we can consider that each particle is associated to a colliding sphere with a specific radius (`simulation_parameter.collision_radius`).
+Handling the collision between the object consists in handling collision between two spheres belonging to different shapes.
+
+::[height:1em;]::
+
+* &gt; Fill the function `collision_between_particles` in order to handle such collision.
+
+::[height:1em;]::
+
+Notes: 
+* The treatment of the collision should be handled via positional modification, i.e. projecting collising spheres onto their contact surface.
+* When projecting shapes at high speed, some collisions between shapes can be missed with particles traversing fully through another one. To reduce this effect, you can 
+** - Increase the `collision steps`: number of iterations handling collisions + shape matching at each simulation step.
+** - Decrease the `Time step`
+** - Increase the `Collision radius`
+
+::[height:2em;]::
+
+::[text-align:center]
+videoplay::assets/collision.mp4[width:100%; max-width:650px;] 
+::
+
+
+== Elasticity and Plasticity
+
+Extend the model to handle a notion of elasticity and plasticity to deformation.
+
+::[height:1em;]::
+
+* - Elasticity can be modeled in considering the following deformation
+** \(q_i = (1-\alpha)\;\mathrm{R}(p_i^\text{ref}-c^\text{ref})+c + \alpha p_i\)
+** \(\alpha\) is the elasticity parameter (in the code: `param.elasticity`)
+
+::[height:1em;]::
+
+* - Plasticity can be modeled in consideing a modification of \(p_i^\text{ref}\) (and \(c^\text{ref}\)) when a large deformation occurs. Ex:
+** If \(\|\mathrm{R}\,(p_i^\text{ref}-c^\text{ref})-(p_i-c)\| \geq \epsilon\) :
+** Then update \(p_i^\text{ref}\) and \(c^\text{ref}\) to take into account such deformation in their new state.
+
+::[height:2em;]::
+
+::[text-align:center; font-size:85%; font-style:italic;]
+videoplay::assets/elastic_deformation.mp4[width:100%; max-width:650px;] 
+div::[]
+Example of elastic deformation
+::
+::
+
+::[height:1em;]::
+
+::[text-align:center; font-size:85%; font-style:italic;]
+videoplay::assets/plastic_deformation.mp4[width:100%; max-width:650px;] 
+div::[]
+Example of plastic deformation
+::
+::
+
+
 
 {% endblock %}
